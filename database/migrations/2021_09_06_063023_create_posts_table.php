@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->text('content');
             $table->string('slug');
-            $table->enum('status',['Publish','Draft']);
+            $table->enum('status',['publish','draft']);
             $table->timestamps();
         });
 

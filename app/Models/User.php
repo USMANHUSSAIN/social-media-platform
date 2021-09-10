@@ -43,6 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    const FRIEND_REQUEST_STATUS = [
+        'C' => 'confirmed',
+        'P' => 'pending',
+        'R' => 'rejected'
+    ];
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -50,6 +56,6 @@ class User extends Authenticatable
 
     public function friends()
     {
-        return $this->belongsToMany(Friend::class);
+        return $this->belongsToMany(User::class, 'friend_users', 'user_id', 'friend_id')->withPivot('id','status');
     }
 }

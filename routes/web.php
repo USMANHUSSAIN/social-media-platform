@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,11 @@ Route::get('/my-profile', function () {
     return 'profile render';
 })->middleware(['auth'])->name('my-profile');
 
-Route::get('/friend-list', [\App\Http\Controllers\FriendController::class, 'list'])->middleware(['auth'])->name('friend-list');
+Route::get('/friend-list', [FriendController::class, 'list'])->middleware(['auth'])->name('friend-list');
+
+Route::post('friend/request-send',[FriendController::class,'sendRequest'])->middleware(['auth'])->name('friend-request-send');
+Route::post('unfriend/request-send',[FriendController::class,'unFriendRequest'])->middleware(['auth'])->name('unfriend-request-send');
+Route::post('accept/request-send',[FriendController::class,'acceptRequest'])->middleware(['auth'])->name('accept-request-send');
+Route::post('remove/request-send',[FriendController::class,'unFriendRequest'])->middleware(['auth'])->name('remove-request-send');
 
 require __DIR__.'/auth.php';
