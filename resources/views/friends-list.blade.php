@@ -1,11 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <nav class="navbar">
-            <h1>{{ Auth::user()->name }}</h1>
-            <div class="links">
-                <a href="/">Home</a> | <a href="{{route('post.create')}}">New Post</a> | <a href="{{route('friend-list')}}">Friend List</a>
-            </div>
-        </nav>
+        @include('navbar')
     </x-slot>
 
     <div class="content">

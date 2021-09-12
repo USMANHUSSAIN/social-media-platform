@@ -16,12 +16,15 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent()->useCurrentOnUpdate();
+            $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
         Schema::table('comments', function (Blueprint $table) {
             $table->index('post_id');
+            $table->index('user_id');
             $table->foreignId('post_id')->after('id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->after('post_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

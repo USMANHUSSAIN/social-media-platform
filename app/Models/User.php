@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function friends()
     {
         return $this->belongsToMany(User::class, 'friend_users', 'user_id', 'friend_id')->withPivot('id','status');

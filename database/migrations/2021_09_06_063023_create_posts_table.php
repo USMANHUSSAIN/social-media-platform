@@ -16,9 +16,10 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->string('slug');
-            $table->enum('status',['publish','draft']);
-            $table->timestamps();
+            $table->string('slug')->nullable();
+            $table->enum('status',['publish','draft'])->default('publish');
+            $table->dateTime('created_at')->useCurrent()->useCurrentOnUpdate();
+            $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
         Schema::table('posts', function (Blueprint $table) {

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +23,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard',[HomeController::class,'index'])->middleware(['auth'])->name('dashboard');
 
-Route::get('/post/create', function () {
-    return 'post creation flow';
-})->middleware(['auth'])->name('post.create');
+Route::get('/my-posts',[PostController::class,'myPosts'])->middleware(['auth'])->name('my-posts');
+Route::post('/post/create',[PostController::class,'createPost'])->middleware(['auth'])->name('post.create');
+Route::post('/comment/add',[CommentController::class,'addComment'])->middleware(['auth'])->name('comment.add');
 
 Route::get('/my-profile', function () {
     return 'profile render';

@@ -48,14 +48,14 @@ class FriendController extends Controller
     private function getFriendList(): array
     {
         $friends = Auth::user()->friends()->wherePivot('status', USER::FRIEND_REQUEST_STATUS['C'])->get();
-        $friendIDs = $friends ? [Auth::id(),...$friends->pluck('id')] : [Auth::id()];
+        $friendIDs = $friends ? [Auth::id(), ...$friends->pluck('id')] : [Auth::id()];
         return [$friends, $friendIDs];
     }
 
     private function getFriendRequestSentList($friendIDs): array
     {
         $requestSent = Auth::user()->friends()->wherePivot('status', USER::FRIEND_REQUEST_STATUS['P'])->get();
-        $friendIDs = $requestSent ? [...$friendIDs,...$requestSent->pluck('id')] : $friendIDs;
+        $friendIDs = $requestSent ? [...$friendIDs, ...$requestSent->pluck('id')] : $friendIDs;
         return [$requestSent, $friendIDs];
     }
 
@@ -63,7 +63,7 @@ class FriendController extends Controller
     {
         $requestReceived = FriendUser::where('friend_id', Auth::id())->where('status', USER::FRIEND_REQUEST_STATUS['P'])->get();
         $requestReceived = $requestReceived ? User::whereIn('id', $requestReceived->pluck('user_id'))->get() : new \stdClass();
-        $friendIDs = $requestReceived ? [...$friendIDs,...$requestReceived->pluck('id')] : $friendIDs;
+        $friendIDs = $requestReceived ? [...$friendIDs, ...$requestReceived->pluck('id')] : $friendIDs;
         return [$requestReceived, $friendIDs];
     }
 
