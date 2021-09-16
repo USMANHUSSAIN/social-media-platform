@@ -21,21 +21,22 @@ Route::get('/', function () {
     return view('auth.register');
 })->middleware(\App\Http\Middleware\isUserLoggedIn::class);
 
-Route::get('/dashboard',[HomeController::class,'index'])->middleware(['auth'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard',[HomeController::class,'index'])->name('dashboard');
+    Route::get('/my-posts',[PostController::class,'myPosts'])->name('my-posts');
+    Route::post('/post/create',[PostController::class,'createPost'])->name('post.create');
+    Route::post('/comment/add',[CommentController::class,'addComment'])->name('comment.add');
 
-Route::get('/my-posts',[PostController::class,'myPosts'])->middleware(['auth'])->name('my-posts');
-Route::post('/post/create',[PostController::class,'createPost'])->middleware(['auth'])->name('post.create');
-Route::post('/comment/add',[CommentController::class,'addComment'])->middleware(['auth'])->name('comment.add');
+    Route::get('/my-profile', function () {
+        return 'profile render';
+    })->name('my-profile');
 
-Route::get('/my-profile', function () {
-    return 'profile render';
-})->middleware(['auth'])->name('my-profile');
+    Route::get('/friend-list', [FriendController::class, 'list'])->name('friend-list');
+    Route::post('friend/request-send',[FriendController::class,'sendRequest'])->name('friend-request-send');
+    Route::post('unfriend/request-send',[FriendController::class,'unFriendRequest'])->name('unfriend-request-send');
+    Route::post('accept/request-send',[FriendController::class,'acceptRequest'])->name('accept-request-send');
+    Route::post('remove/request-send',[FriendController::class,'unFriendRequest'])->name('remove-request-send');
+});
 
-Route::get('/friend-list', [FriendController::class, 'list'])->middleware(['auth'])->name('friend-list');
-
-Route::post('friend/request-send',[FriendController::class,'sendRequest'])->middleware(['auth'])->name('friend-request-send');
-Route::post('unfriend/request-send',[FriendController::class,'unFriendRequest'])->middleware(['auth'])->name('unfriend-request-send');
-Route::post('accept/request-send',[FriendController::class,'acceptRequest'])->middleware(['auth'])->name('accept-request-send');
-Route::post('remove/request-send',[FriendController::class,'unFriendRequest'])->middleware(['auth'])->name('remove-request-send');
 
 require __DIR__.'/auth.php';
